@@ -1,0 +1,15 @@
+C:\Users\mract\Desktop\Programming\cSharp\timeKeeper\obj\Debug\net6.0\timeKeeper.csproj.AssemblyReference.cache
+C:\Users\mract\Desktop\Programming\cSharp\timeKeeper\obj\Debug\net6.0\timeKeeper.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\mract\Desktop\Programming\cSharp\timeKeeper\obj\Debug\net6.0\timeKeeper.AssemblyInfoInputs.cache
+C:\Users\mract\Desktop\Programming\cSharp\timeKeeper\obj\Debug\net6.0\timeKeeper.AssemblyInfo.cs
+C:\Users\mract\Desktop\Programming\cSharp\timeKeeper\obj\Debug\net6.0\timeKeeper.csproj.CoreCompileInputs.cache
+C:\Users\mract\Desktop\Programming\cSharp\timeKeeper\bin\Debug\net6.0\timeKeeper.exe
+C:\Users\mract\Desktop\Programming\cSharp\timeKeeper\bin\Debug\net6.0\timeKeeper.deps.json
+C:\Users\mract\Desktop\Programming\cSharp\timeKeeper\bin\Debug\net6.0\timeKeeper.runtimeconfig.json
+C:\Users\mract\Desktop\Programming\cSharp\timeKeeper\bin\Debug\net6.0\timeKeeper.dll
+C:\Users\mract\Desktop\Programming\cSharp\timeKeeper\bin\Debug\net6.0\ref\timeKeeper.dll
+C:\Users\mract\Desktop\Programming\cSharp\timeKeeper\bin\Debug\net6.0\timeKeeper.pdb
+C:\Users\mract\Desktop\Programming\cSharp\timeKeeper\obj\Debug\net6.0\timeKeeper.dll
+C:\Users\mract\Desktop\Programming\cSharp\timeKeeper\obj\Debug\net6.0\ref\timeKeeper.dll
+C:\Users\mract\Desktop\Programming\cSharp\timeKeeper\obj\Debug\net6.0\timeKeeper.pdb
+C:\Users\mract\Desktop\Programming\cSharp\timeKeeper\obj\Debug\net6.0\timeKeeper.genruntimeconfig.cache
