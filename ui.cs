@@ -12,7 +12,7 @@ class loop{
 
         ul = null;
         if (File.Exists(".\\userList.json")){
-            ul = jsh.importExport.importJson(".\\userList.json");
+            ul = jsh.serializer.Deserialize(".\\userList.json");
         }
 
         if (ul == null){
@@ -287,7 +287,7 @@ class loop{
         if (path == null){
             path = ".\\";
         }
-        jsh.importExport.exportJson(this.ul, path);
+        jsh.serializer.Serialize(this.ul, path);
     }
 }
 }

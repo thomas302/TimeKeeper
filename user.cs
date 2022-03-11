@@ -2,6 +2,12 @@ namespace TimeKeeper.users
 {
 using System;
 class Person{
+    /*
+    This is a data class used to contain the data relavent to a given person.
+    Its properties are all public so that it can be used with the c# Json serialize
+    and deserialize methods.
+    */
+
     // The {get; set;} makes it possible to serialize the person class
     // when the serialize method is called on the userList mainList.
     public String? firstName {get; set;}
@@ -31,28 +37,26 @@ class userList
 {
     public Dictionary<int, Person>? mainList {get; set;}
 
-    public userList()
-    {
-    }
+    // Paramterless constructer for use with deserialize and serialize
+    public userList() {}
     
-
     public void setMainList(Dictionary<int, Person> newList){
         this.mainList = newList;
     }
 
     public void addPerson(String fName,  String lName, int id, double hours, bool mentor, bool isLoggedIn){
-        if (mainList == null)
+        if (this.mainList == null)
         {
-            mainList = new Dictionary<int, Person>();
+            this.mainList = new Dictionary<int, Person>();
         }
         Person _person = new Person(fName, lName, id, hours, mentor, isLoggedIn);
         this.mainList.Add(id, _person);
     }
 
     public void addPerson(Person _person){
-        if (mainList == null)
+        if (this.mainList == null)
         {
-            mainList = new Dictionary<int, Person>();
+            this.mainList = new Dictionary<int, Person>();
         }
         //Person _person = new Person(fName, lName, id, hours, mentor, isLoggedIn);
         this.mainList.Add(_person.id, _person);
@@ -72,17 +76,18 @@ class userList
 
     public Person getPerson(int id)
     {
-        if (mainList == null){
+        if (this.mainList == null)
+        {
             throw new Exception("User List is Null");
         }
         return this.mainList[id];
     }
 
     public void loginPerson(int id){
-        if (mainList != null)
+        if (this.mainList != null)
         {
-            mainList[id].lastLoginTime = DateTime.Now;
-            mainList[id].isLoggedIn = true;
+            this.mainList[id].lastLoginTime = DateTime.Now;
+            this.mainList[id].isLoggedIn = true;
         }
         else
         {
@@ -92,17 +97,29 @@ class userList
 
     public void logoutPerson(int id)
     {
-        if (mainList != null)
+        if (this.mainList != null)
         {   
-            DateTime startTime = mainList[id].lastLoginTime;
+            DateTime startTime = this.mainList[id].lastLoginTime;
             DateTime endTime = DateTime.Now;
 
             TimeSpan elapsed = endTime.Subtract(startTime);
 
-            mainList[id].hours = elapsed.TotalHours;
+            this.mainList[id].hours = elapsed.TotalHours;
 
-            mainList[id].isLoggedIn = false;
+            this.mainList[id].isLoggedIn = false;
             
+        }
+        else
+        {
+            throw new Exception("User List is null");
+        }
+    }
+
+    public void clearPersonHours(int id)
+    {
+        if (this.mainList != null && this.mainList.ContainsKey(id))
+        {
+            this.mainList[id].hours = 0;
         }
         else
         {
@@ -112,7 +129,7 @@ class userList
 
     public double getPersonHours(int id)
     {
-        if (mainList != null)
+        if ( this.mainList != null && this.mainList.ContainsKey(id))
         {
             return this.mainList[id].hours;
         }
@@ -123,9 +140,24 @@ class userList
         //return 0;
     }
 
+    public void clearAllHours()
+    {
+        if (this.mainList != null)
+        {
+            foreach (KeyValuePair<int, Person> p in this.mainList)
+            {
+                p.Value.hours = 0;
+            }
+        }
+        else
+        {
+            throw new Exception("User List is null");
+        }
+    }
+
     public Dictionary<int, Person> getMainList()
     {
-        if (mainList != null)
+        if (this.mainList != null)
         {
             return this.mainList;
         }
