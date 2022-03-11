@@ -58,10 +58,51 @@ class userList
         this.mainList.Add(_person.id, _person);
     }
 
+    public void rmPerson(int id)
+    {   
+        if (this.mainList != null)
+        {
+            this.mainList.Remove(id);
+        }
+        else
+        {
+            throw new IndexOutOfRangeException();
+        }
+    }
+
+    public Person getPerson(int id)
+    {
+        if (mainList == null){
+            throw new Exception("User List is Null");
+        }
+        return this.mainList[id];
+    }
+
     public void loginPerson(int id){
         if (mainList != null)
         {
             mainList[id].lastLoginTime = DateTime.Now;
+            mainList[id].isLoggedIn = true;
+        }
+        else
+        {
+            throw new Exception("User List is null");
+        }
+    }
+
+    public void logoutPerson(int id)
+    {
+        if (mainList != null)
+        {   
+            DateTime startTime = mainList[id].lastLoginTime;
+            DateTime endTime = DateTime.Now;
+
+            TimeSpan elapsed = endTime.Subtract(startTime);
+
+            mainList[id].hours = elapsed.TotalHours;
+
+            mainList[id].isLoggedIn = false;
+            
         }
         else
         {

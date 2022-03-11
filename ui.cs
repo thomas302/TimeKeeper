@@ -87,10 +87,10 @@ class loop{
             this.mode = Console.ReadLine();
         }
     }
+
     public void run()
     {   
         printMainMenu();
-        // Here the ? indicates that this string is nullable.
         this.mode = Console.ReadLine();
 
         while (true)
@@ -122,7 +122,7 @@ class loop{
         String? lName = Console.ReadLine();
         if (lName == null){
             isUserInputValid = false;
-            Console.WriteLine("You Must Enter A First Name.");
+            Console.WriteLine("You Must Enter A Last Name.");
         }
 
         Console.WriteLine("Enter An ID Number (It must be an integer): ");
@@ -154,9 +154,7 @@ class loop{
         if (isUserInputValid && fName != null && lName != null)
         {
             u.Person _person = new u.Person(fName, lName, id, 0, mentor, false);
-
             ul.addPerson(_person);
-
             this.updateState = true;
         }
         else 
@@ -167,17 +165,60 @@ class loop{
 
     public void rmUser()
     {
+        if (this.ul == null){
+            throw new Exception("User list is null");
+        }
         Console.Clear();
-        Console.WriteLine(6);
-        updateState = true;
+        Console.WriteLine(7);
+
+        Console.WriteLine("Enter an Id To remove or c to cancel");
+        String? id_s = Console.ReadLine();
+        int id;
+
+        if (int.TryParse(id_s, out id)){
+            this.ul.rmPerson(id);
+            updateState = true;
+        }
+        else if (id_s == "c")
+        {
+            updateState = true;
+        }
+        else
+        {
+            Console.WriteLine("Please Enter a Valid Command");
+        }
     }
 
     public void login_logout()
     {
+        if (this.ul == null){
+            throw new Exception("User list is null");
+        }
         Console.Clear();
         Console.WriteLine(1);
-        updateState = true;
 
+        Console.WriteLine("Enter an Id to login/out or c to cancel");
+        String? id_s = Console.ReadLine();
+        int id;
+        if (int.TryParse(id_s, out id)){
+            if(this.ul.getPerson(id).isLoggedIn)
+            {
+                this.ul.logoutPerson(id);
+            }
+            else
+            {
+                this.ul.loginPerson(id);
+            }
+            updateState = true;
+        }
+        else if (id_s == "c")
+        {
+            updateState = true;
+        }
+        else
+        {
+            Console.WriteLine("Please Enter a c input");
+        }
     }
 
     public void getUserHours()
