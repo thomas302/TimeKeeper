@@ -11,4 +11,4 @@ A simple hour tracker eventually intended for use by the FRC robotics team I men
       <br>  Nevermind I fixed it.  Apparently Deserialize requires access to a constructor with no parameters.
 - [X] Save user data to JSON file
 - [ ] Write GUI
-- [ ] Write function to get hours
+- [X] Write function to get hours
