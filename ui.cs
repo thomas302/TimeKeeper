@@ -1,16 +1,25 @@
 namespace TimeKeeper.ui
 {
 using u = users;
+using jsh = jsonHandling;
 class loop{
-    
-    public DateTime start;
     bool updateState = false;
     String? mode;
 
-    public u.userList ul;
+    public u.userList? ul;
 
     public loop() {
-        ul = new u.userList();
+
+        ul = null;
+        if (File.Exists(".\\userList.json")){
+            ul = jsh.importExport.importJson(".\\userList.json");
+        }
+
+        if (ul == null){
+            ul = new u.userList();
+        }
+
+
     }
 
     public void main()
@@ -52,7 +61,7 @@ class loop{
                 break;
 
             case "8":
-                saveUserState();
+                saveUserList();
                 updateState = true;
                 break;
 
@@ -60,6 +69,7 @@ class loop{
             case "Q":
                 Console.Clear();
                 Console.WriteLine("exit");
+                saveUserList();
                 System.Environment.Exit(0);
                 break;
             
@@ -78,9 +88,7 @@ class loop{
         }
     }
     public void run()
-    {
-        start = DateTime.Now;
-
+    {   
         printMainMenu();
         // Here the ? indicates that this string is nullable.
         this.mode = Console.ReadLine();
@@ -93,6 +101,10 @@ class loop{
 
     public void addUser()
     {   
+        if (this.ul == null){
+            throw new Exception("User List Is Null");
+        }
+        
         bool isUserInputValid = true;
         bool mentor = false;
 
@@ -139,19 +151,18 @@ class loop{
         }
 
         // The extra check of fName and lName for null is redundant, but avoids a compilation warning.
-        if (isUserInputValid && fName != null && lName != null){
+        if (isUserInputValid && fName != null && lName != null)
+        {
             u.Person _person = new u.Person(fName, lName, id, 0, mentor, false);
 
             ul.addPerson(_person);
 
             this.updateState = true;
         }
-        else {
+        else 
+        {
             updateState = false;
         }
-
-
-        
     }
 
     public void rmUser()
@@ -192,6 +203,9 @@ class loop{
 
     public void displayAllUsersHours()
     {
+        if (this.ul == null){
+            throw new Exception("User List Is Null");
+        }
         Console.Clear();
         Console.WriteLine(4);
         foreach(KeyValuePair<int, u.Person> p in this.ul.getMainList())
@@ -224,8 +238,15 @@ class loop{
         Console.WriteLine("    (q) Exit and Logout All");
     }
 
-    void saveUserState(){
-        jsonHandling.jsonHandling.exportJson(this.ul);
+    void saveUserList(String? path = null){
+        if (this.ul == null){
+            throw new Exception("User List Is Null");
+        }
+
+        if (path == null){
+            path = ".\\";
+        }
+        jsh.importExport.exportJson(this.ul, path);
     }
 }
 }

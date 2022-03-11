@@ -12,6 +12,10 @@ class Person{
     public bool mentor {get; set;} 
     public bool isLoggedIn{get; set;}
 
+    // This is neccessary for JSON import to work.  IDK why, but it is.  It seems like it has to do with
+    // how values are set/it instantiates a class with an empty constructor when deserializing json.
+    public Person(){}
+
     public Person(String fName,  String lName, int id, double hours, bool mentor, bool isLoggedIn)
     {
         this.firstName = fName;
@@ -25,35 +29,69 @@ class Person{
 
 class userList
 {
-    public Dictionary<int, Person> mainList;
+    public Dictionary<int, Person>? mainList {get; set;}
 
-    public userList(){
-        this.mainList = new Dictionary<int, Person>();
+    public userList()
+    {
+    }
+    
+
+    public void setMainList(Dictionary<int, Person> newList){
+        this.mainList = newList;
     }
 
     public void addPerson(String fName,  String lName, int id, double hours, bool mentor, bool isLoggedIn){
+        if (mainList == null)
+        {
+            mainList = new Dictionary<int, Person>();
+        }
         Person _person = new Person(fName, lName, id, hours, mentor, isLoggedIn);
         this.mainList.Add(id, _person);
     }
 
     public void addPerson(Person _person){
+        if (mainList == null)
+        {
+            mainList = new Dictionary<int, Person>();
+        }
         //Person _person = new Person(fName, lName, id, hours, mentor, isLoggedIn);
         this.mainList.Add(_person.id, _person);
     }
 
     public void loginPerson(int id){
-        mainList[id].lastLoginTime = DateTime.Now;
+        if (mainList != null)
+        {
+            mainList[id].lastLoginTime = DateTime.Now;
+        }
+        else
+        {
+            throw new Exception("User List is null");
+        }
     }
 
     public double getPersonHours(int id)
     {
-        return this.mainList[id].hours;
+        if (mainList != null)
+        {
+            return this.mainList[id].hours;
+        }
+        else
+        {
+            throw new Exception("User List is null");
+        }
         //return 0;
     }
 
     public Dictionary<int, Person> getMainList()
     {
-        return this.mainList;
+        if (mainList != null)
+        {
+            return this.mainList;
+        }
+        else
+        {
+            throw new Exception("User List is null");
+        }  
     }
 }
 

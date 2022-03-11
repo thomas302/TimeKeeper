@@ -3,26 +3,27 @@ namespace TimeKeeper.jsonHandling
 using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-static class jsonHandling{
-
-    public static users.userList importJson(String pathToFile)
+static class importExport{
+    public static users.userList? importJson(String? pathToFile=null)
     {
-        string jsonString = File.ReadAllText(pathToFile);
-        users.userList? ul = JsonSerializer.Deserialize<users.userList>(jsonString);
-        if(ul != null){
-            return ul;
-        }
-        else{
-            ul = new users.userList();
-            return ul;
-        }
+        users.userList? ml;
+        string jsonString = File.ReadAllText("userList.json");
+        Console.WriteLine(jsonString);
+        
+        ml = JsonSerializer.Deserialize<users.userList> (jsonString);
+
+        return ml;
     }
 
-    public static void exportJson(users.userList ul)
+    public static void exportJson(users.userList ul, String pathToFile)
     {
         var options = new JsonSerializerOptions { WriteIndented = true };
-        string exported = JsonSerializer.Serialize(ul.getMainList(), options);
+        string exported = JsonSerializer.Serialize(ul, options);
         Console.WriteLine(exported);
+
+        File.WriteAllText( pathToFile + "userList.json", exported);
+
+
     }
 }
 }

@@ -1,0 +1,31 @@
+{
+  "mainList": {
+    "20": {
+      "firstName": "joel",
+      "lastName": "velez",
+      "id": 20,
+      "hours": 0,
+      "lastLoginTime": "0001-01-01T00:00:00",
+      "mentor": true,
+      "isLoggedIn": false
+    },
+    "21": {
+      "firstName": "joel",
+      "lastName": "velez",
+      "id": 21,
+      "hours": 0,
+      "lastLoginTime": "0001-01-01T00:00:00",
+      "mentor": false,
+      "isLoggedIn": false
+    },
+    "34": {
+      "firstName": "john",
+      "lastName": "Doe",
+      "id": 34,
+      "hours": 0,
+      "lastLoginTime": "0001-01-01T00:00:00",
+      "mentor": false,
+      "isLoggedIn": false
+    }
+  }
+}
