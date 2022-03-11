@@ -10,4 +10,3 @@ A simple hour tracker eventually intended for use by the FRC robotics team I men
 - [ ] Save user data to JSON file
 - [ ] Write GUI
 - [ ] Write function to get hours
-- [ ] 
