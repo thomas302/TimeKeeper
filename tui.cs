@@ -1,4 +1,4 @@
-namespace TimeKeeper.ui
+namespace TimeKeeper.tui
 {
 using u = users;
 using jsh = jsonHandling;
@@ -99,9 +99,29 @@ class loop{
         }
     }
 
+    void continue_on_key()
+    {
+        Console.Write("Press Any Key to continue");
+        Console.ReadKey();
+    }
+
+    void printMainMenu()
+    {
+        Console.WriteLine("Choose a mode:");
+        Console.WriteLine("    (1) Log User In\\Out");
+        Console.WriteLine("    (2) Get User Hours");
+        Console.WriteLine("    (3) Get User List");
+        Console.WriteLine("    (4) Get All Hours");
+        Console.WriteLine("    (5) Logout All");
+        Console.WriteLine("    (6) Add User");
+        Console.WriteLine("    (7) Remove User");
+        Console.WriteLine("    (8) Save User List");
+        Console.WriteLine("    (q) Exit and Logout All");
+    }
+
     public void addUser()
     {   
-        if (this.ul == null){
+        if (ul == null){
             throw new Exception("User List Is Null");
         }
         
@@ -165,7 +185,7 @@ class loop{
 
     public void rmUser()
     {
-        if (this.ul == null){
+        if (ul == null){
             throw new Exception("User list is null");
         }
         Console.Clear();
@@ -176,7 +196,7 @@ class loop{
         int id;
 
         if (int.TryParse(id_s, out id)){
-            this.ul.rmPerson(id);
+            ul.rmPerson(id);
             updateState = true;
         }
         else if (id_s == "c")
@@ -191,9 +211,10 @@ class loop{
 
     public void login_logout()
     {
-        if (this.ul == null){
+        if (ul == null){
             throw new Exception("User list is null");
         }
+
         Console.Clear();
         Console.WriteLine(1);
 
@@ -201,13 +222,13 @@ class loop{
         String? id_s = Console.ReadLine();
         int id;
         if (int.TryParse(id_s, out id)){
-            if(this.ul.getPerson(id).isLoggedIn)
+            if(ul.getPerson(id).isLoggedIn)
             {
-                this.ul.logoutPerson(id);
+                ul.logoutPerson(id);
             }
             else
             {
-                this.ul.loginPerson(id);
+                ul.loginPerson(id);
             }
             updateState = true;
         }
@@ -217,7 +238,7 @@ class loop{
         }
         else
         {
-            Console.WriteLine("Please Enter a c input");
+            Console.WriteLine("Please Enter a valid input");
         }
     }
 
@@ -225,13 +246,35 @@ class loop{
     {
         Console.Clear();
         Console.WriteLine(2);
-        updateState = true;
+        Console.WriteLine("Please Enter an ID");
+        String? id_s = Console.ReadLine();
+        int id;
+
+        if (ul != null)
+        {   
+            if (int.TryParse(id_s, out id))
+            {
+                Console.WriteLine("Name: {0}, {1}", ul.getPerson(id).firstName, ul.getPerson(id).lastName);
+                Console.WriteLine("Hours: {0}", ul.getPerson(id).hours);
+                updateState = true;
+            }
+            else
+            {
+                Console.WriteLine("Please Enter a valid input");
+            }
+        }
     }
 
     public void getUserList()
     {
         Console.Clear();
         Console.WriteLine(3);
+        if(ul != null)
+        foreach(KeyValuePair<int, u.Person> p in ul.getMainList())
+        {
+            p.Value.print();
+            Console.WriteLine();
+        }
         updateState = true;
     }
 
@@ -239,17 +282,22 @@ class loop{
     {
         Console.Clear();
         Console.WriteLine(5);
+        if(ul != null) 
+        foreach (KeyValuePair<int, u.Person> p in ul.getMainList())
+        {
+            ul.logoutPerson(p.Key);
+        }
         updateState = true;
     }
 
     public void displayAllUsersHours()
     {
-        if (this.ul == null){
+        if (ul == null){
             throw new Exception("User List Is Null");
         }
         Console.Clear();
         Console.WriteLine(4);
-        foreach(KeyValuePair<int, u.Person> p in this.ul.getMainList())
+        foreach(KeyValuePair<int, u.Person> p in ul.getMainList())
         {
             int id = p.Key;
             Console.Write(p.Value.firstName);
@@ -262,32 +310,15 @@ class loop{
         updateState = true;
     }
 
-    void continue_on_key()
-    {
-        Console.Write("Press Any Key to continue");
-        Console.ReadKey();
-    }
-
-    void printMainMenu()
-    {
-        Console.WriteLine("Choose a mode:");
-        Console.WriteLine("    (1) Log User In\\Out");
-        Console.WriteLine("    (2) Get User Hours");
-        Console.WriteLine("    (3) Get User List");
-        Console.WriteLine("    (4) Get All Hours");
-        Console.WriteLine("    (5) Logout All");
-        Console.WriteLine("    (q) Exit and Logout All");
-    }
-
     void saveUserList(String? path = null){
-        if (this.ul == null){
+        if (ul == null){
             throw new Exception("User List Is Null");
         }
 
         if (path == null){
             path = ".\\";
         }
-        jsh.serializer.Serialize(this.ul, path);
+        jsh.serializer.Serialize(ul, path);
     }
 }
 }

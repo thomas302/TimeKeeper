@@ -31,5 +31,13 @@ class Person{
         this.mentor = mentor;
         this.isLoggedIn = isLoggedIn;
     }
+
+    public void print()
+    {
+        Console.WriteLine("Name: {0} {1}", firstName, lastName);
+        Console.WriteLine("Hours: {0}", hours);
+        Console.WriteLine("Mentor: {0}", mentor ? "Yes" : "No");
+        Console.WriteLine(isLoggedIn ? "Logged In" : "Logged out");
+    }
 }
 }
