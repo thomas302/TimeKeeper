@@ -2,6 +2,8 @@ namespace TimeKeeper.users
 {
 using System;
 class Person{
+    // The {get; set;} makes it possible to serialize the person class
+    // when the serialize method is called on the userList mainList.
     public String? firstName {get; set;}
     public String? lastName {get; set;}
     public int id {get; set;}
@@ -27,11 +29,6 @@ class userList
 
     public userList(){
         this.mainList = new Dictionary<int, Person>();
-    }
-
-    public userList(Dictionary<int, Person> mainList)
-    {
-        this.mainList = mainList;
     }
 
     public void addPerson(String fName,  String lName, int id, double hours, bool mentor, bool isLoggedIn){
