@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>timeKeeper</name>
+    </assembly>
+    <members>
+        <member name="M:TimeKeeper.program.Main(System.Boolean,System.Boolean,System.IO.FileInfo)">
+            <param name="tui">Set this flag to invoke the TUI, defaults to false Cannot be invoked with the GUI flag.</param>
+            <param name="gui">Set this flag to invoke the GUI, defaults to true. Cannot be invoked with the TUI flag.</param>
+            <param name="path">An optional path to the userList.json dile</param>
+        </member>
+    </members>
+</doc>

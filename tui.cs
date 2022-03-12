@@ -8,11 +8,10 @@ class loop{
 
     public u.userList? ul;
 
-    public loop() {
-
+    public loop(FileInfo path) {
         ul = null;
-        if (File.Exists(".\\userList.json")){
-            ul = jsh.serializer.Deserialize(".\\userList.json");
+        if (File.Exists(path.ToString())){
+            ul = jsh.serializer.Deserialize(path.ToString());
         }
 
         if (ul == null){
