@@ -68,6 +68,7 @@ class loop{
             case "Q":
                 Console.Clear();
                 Console.WriteLine("exit");
+                logOutAll();
                 saveUserList();
                 System.Environment.Exit(0);
                 break;
@@ -224,10 +225,16 @@ class loop{
             if(ul.getPerson(id).isLoggedIn)
             {
                 ul.logoutPerson(id);
+                Console.WriteLine("User: {0}: {1} {2} is {3}", id, 
+                    ul.getPerson(id).firstName, ul.getPerson(id).lastName, 
+                    ul.getPerson(id).isLoggedIn ? "Logged In" : "Logged Out");
             }
             else
             {
                 ul.loginPerson(id);
+                Console.WriteLine("User: {0}: {1} {2} is {3}", id, 
+                    ul.getPerson(id).firstName, ul.getPerson(id).lastName, 
+                    ul.getPerson(id).isLoggedIn ? "Logged In" : "Logged Out");
             }
             updateState = true;
         }

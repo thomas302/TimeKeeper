@@ -8,7 +8,7 @@ static class serializer{
     {
         users.userList? ml;
         string jsonString = File.ReadAllText("userList.json");
-        Console.WriteLine(jsonString);
+        //Console.WriteLine(jsonString);
         
         ml = JsonSerializer.Deserialize<users.userList> (jsonString);
 
@@ -19,7 +19,7 @@ static class serializer{
     {
         var options = new JsonSerializerOptions { WriteIndented = true };
         string exported = JsonSerializer.Serialize(ul, options);
-        Console.WriteLine(exported);
+        //Console.WriteLine(exported);
 
         File.WriteAllText( pathToFile + "userList.json", exported);
     }

@@ -66,15 +66,21 @@ class userList
     {
         if (this.mainList != null)
         {   
-            DateTime startTime = this.mainList[id].lastLoginTime;
-            DateTime endTime = DateTime.Now;
+            if (mainList[id].isLoggedIn)
+            {
+                DateTime startTime = this.mainList[id].lastLoginTime;
+                DateTime endTime = DateTime.Now;
 
-            TimeSpan elapsed = endTime.Subtract(startTime);
+                TimeSpan elapsed = endTime.Subtract(startTime);
 
-            this.mainList[id].hours = elapsed.TotalHours;
+                this.mainList[id].hours = elapsed.TotalHours;
 
-            this.mainList[id].isLoggedIn = false;
-            
+                this.mainList[id].isLoggedIn = false;
+            }
+            else 
+            {
+                Console.WriteLine("User Is not logged in.");
+            }
         }
         else
         {
