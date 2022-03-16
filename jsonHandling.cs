@@ -19,7 +19,6 @@ static class serializer{
     {
         var options = new JsonSerializerOptions { WriteIndented = true };
         string exported = JsonSerializer.Serialize(ul, options);
-        //Console.WriteLine(exported);
 
         File.WriteAllText( pathToFile + "userList.json", exported);
     }
