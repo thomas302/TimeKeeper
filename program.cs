@@ -12,8 +12,8 @@
         {   
             if(path == null) path = new FileInfo(".\\userList.json");
 
-            if(tui && !gui) startTui(path);
-            if(gui) startGui(path);
+            if(tui) startTui(path);
+            if(gui && !tui) startGui(path);
         }
 
         static void startTui(FileInfo path)

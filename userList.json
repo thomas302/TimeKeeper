@@ -4,8 +4,8 @@
       "firstName": "Joel",
       "lastName": "Velez",
       "id": 20,
-      "hours": 0.002344550361111111,
-      "lastLoginTime": "2022-03-15T12:43:56.9314144-07:00",
+      "hours": 0.00717639825,
+      "lastLoginTime": "2022-03-16T11:55:32.9023792-07:00",
       "mentor": true,
       "isLoggedIn": false
     },
@@ -13,8 +13,8 @@
       "firstName": "Thuan",
       "lastName": "Quach",
       "id": 35,
-      "hours": 1.0055517880277778,
-      "lastLoginTime": "2022-03-15T11:43:45.3853635-07:00",
+      "hours": 0.005017483194444445,
+      "lastLoginTime": "2022-03-16T11:55:40.6745256-07:00",
       "mentor": true,
       "isLoggedIn": false
     }

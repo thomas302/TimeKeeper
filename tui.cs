@@ -23,7 +23,7 @@ class loop{
 
     public void main()
     {
-        switch (this.mode){
+        switch (mode){
             case "1":
             case "(1)":
                 login_logout();
@@ -91,7 +91,8 @@ class loop{
     public void run()
     {   
         printMainMenu();
-        this.mode = Console.ReadLine();
+        mode = Console.ReadLine();
+        updateState = false;
 
         while (true)
         {   
@@ -297,7 +298,9 @@ class loop{
 
         foreach (KeyValuePair<int, u.Person> p in ul.getMainList())
         {
-            ul.logoutPerson(p.Key);
+            // if user is logged in, log user out
+            if (p.Value.isLoggedIn)
+                ul.logoutPerson(p.Key);
         }
         updateState = true;
     }
