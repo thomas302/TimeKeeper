@@ -12,12 +12,7 @@
         {   
             if(path == null) path = new FileInfo(".\\userList.json");
 
-            if(gui == false && tui == false) 
-            {
-                Console.WriteLine("Invalid state of gui and tui flag");
-                System.Environment.Exit(1);
-            }
-            if(tui) startTui(path);
+            if(tui && !gui) startTui(path);
             if(gui) startGui(path);
         }
 

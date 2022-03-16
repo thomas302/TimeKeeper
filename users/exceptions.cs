@@ -7,6 +7,13 @@ namespace TimeKeeper.users.exceptions
     public NullMainList(string message, Exception inner) : base(message, inner) { }
     }
 
+    class NullPerson : Exception
+    {
+    public NullPerson() : base() { }
+    public NullPerson(string message) : base(message) { }
+    public NullPerson(string message, Exception inner) : base(message, inner) { }
+    }
+
     class InvalidInput : ArgumentException
     {
     public InvalidInput() : base() { }

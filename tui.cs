@@ -84,7 +84,7 @@ class loop{
             continue_on_key();
             Console.Clear();
             printMainMenu();
-            this.mode = Console.ReadLine();
+            mode = Console.ReadLine();
         }
     }
 
@@ -95,7 +95,14 @@ class loop{
 
         while (true)
         {   
+            try
+            {
             main();
+            }
+            catch (Exception ex) when (ex is u.exceptions.InvalidInput || ex is ArgumentException || ex is u.exceptions.InvalidLoginState)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
     }
 
@@ -121,11 +128,9 @@ class loop{
 
     public void addUser()
     {   
-        if (ul == null){
-            throw new Exception("User List Is Null");
-        }
+        if(ul == null)
+            throw new users.exceptions.NullMainList("Main List Is Null");
         
-        bool isUserInputValid = true;
         bool mentor = false;
 
         Console.Clear();
@@ -133,16 +138,17 @@ class loop{
 
         Console.WriteLine("First Name: ");
         String? fName = Console.ReadLine();
-        if (fName == null){
-            isUserInputValid = false;
-            Console.WriteLine("You Must Enter A First Name.");
+
+        if (fName == null)
+        {
+            updateState = false;
+            throw new users.exceptions.InvalidInput("Invalid ID");
         }
 
         Console.WriteLine("Last Name: ");
         String? lName = Console.ReadLine();
         if (lName == null){
-            isUserInputValid = false;
-            Console.WriteLine("You Must Enter A Last Name.");
+            throw new users.exceptions.InvalidInput("Invalid ID");
         }
 
         Console.WriteLine("Enter An ID Number (It must be an integer): ");
@@ -150,8 +156,8 @@ class loop{
         int id;
         if (!int.TryParse(id_s, out id))
         {
-            Console.WriteLine("Invalid ID");
-            isUserInputValid = false;
+            updateState = false;
+            throw new users.exceptions.InvalidInput("Invalid ID");
         }
 
         Console.WriteLine("Are You A Mentor? Yes (y) Or No (n)");
@@ -166,28 +172,20 @@ class loop{
             mentor = false;
         }
         else{
-            Console.WriteLine("Invalid Input");
-            isUserInputValid = false;
+            updateState = false;
+            throw new users.exceptions.InvalidInput("Invalid ID");
         }
 
-        // The extra check of fName and lName for null is redundant, but avoids a compilation warning.
-        if (isUserInputValid && fName != null && lName != null)
-        {
-            u.Person _person = new u.Person(fName, lName, id, 0, mentor, false);
-            ul.addPerson(_person);
-            this.updateState = true;
-        }
-        else 
-        {
-            updateState = false;
-        }
+        u.Person _person = new u.Person(fName, lName, id, 0, mentor, false);
+        ul.addPerson(_person);
+        updateState = true;
     }
 
     public void rmUser()
     {
-        if (ul == null){
-            throw new Exception("User list is null");
-        }
+        if(ul == null)
+            throw new users.exceptions.NullMainList("Main List Is Null");
+
         Console.Clear();
         Console.WriteLine(7);
 
@@ -211,9 +209,8 @@ class loop{
 
     public void login_logout()
     {
-        if (ul == null){
-            throw new Exception("User list is null");
-        }
+        if(ul == null)
+            throw new users.exceptions.NullMainList("Main List Is Null");
 
         Console.Clear();
         Console.WriteLine(1);
@@ -261,18 +258,12 @@ class loop{
             
             if (int.TryParse(id_s, out id))
             {
-                u.Person? _person;
+                u.Person _person;
                 _person = ul.getPerson(id);
-                if (_person != null)
-                {
-                    Console.WriteLine("Name: {0}, {1}", _person.firstName, _person.lastName);
-                    Console.WriteLine("Hours: {0}", _person.hours);
-                    updateState = true;
-                }
-                else
-                {
-                    
-                }
+
+                Console.WriteLine("Name: {0}, {1}", _person.firstName, _person.lastName);
+                Console.WriteLine("Hours: {0}", _person.hours);
+                updateState = true;
             }
             else
             {
@@ -285,12 +276,15 @@ class loop{
     {
         Console.Clear();
         Console.WriteLine(3);
-        if(ul != null)
+        if(ul == null)
+            throw new users.exceptions.NullMainList("Main List Is Null");
+        
         foreach(KeyValuePair<int, u.Person> p in ul.getMainList())
         {
             p.Value.print();
             Console.WriteLine();
         }
+        
         updateState = true;
     }
 
@@ -298,7 +292,9 @@ class loop{
     {
         Console.Clear();
         Console.WriteLine(5);
-        if(ul != null) 
+        if(ul == null)
+            throw new users.exceptions.NullMainList("Main List Is Null");
+
         foreach (KeyValuePair<int, u.Person> p in ul.getMainList())
         {
             ul.logoutPerson(p.Key);
@@ -308,11 +304,12 @@ class loop{
 
     public void displayAllUsersHours()
     {
-        if (ul == null){
-            throw new Exception("User List Is Null");
-        }
+        if(ul == null)
+            throw new users.exceptions.NullMainList("Main List Is Null");
+        
         Console.Clear();
         Console.WriteLine(4);
+
         foreach(KeyValuePair<int, u.Person> p in ul.getMainList())
         {
             int id = p.Key;
@@ -327,9 +324,8 @@ class loop{
     }
 
     void saveUserList(String? path = null){
-        if (ul == null){
-            throw new Exception("User List Is Null");
-        }
+        if(ul == null)
+            throw new users.exceptions.NullMainList("Main List Is Null");
 
         if (path == null){
             path = ".\\";
