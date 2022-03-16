@@ -1,5 +1,6 @@
 namespace TimeKeeper.users
 {
+using e = exceptions;
 class userList
 {
     public Dictionary<int, Person>? mainList {get; set;}
@@ -7,33 +8,68 @@ class userList
     // Paramterless constructer for use with deserialize and serialize
     public userList() {}
     
-    public void setMainList(Dictionary<int, Person> newList){
-        this.mainList = newList;
+    public void setMainList(Dictionary<int, Person> newList)
+    {
+        mainList = newList;
     }
 
     public void addPerson(String fName,  String lName, int id, double hours, bool mentor, bool isLoggedIn){
-        if (this.mainList == null)
+        if (mainList == null)
         {
-            this.mainList = new Dictionary<int, Person>();
+            mainList = new Dictionary<int, Person>();
         }
+
         Person _person = new Person(fName, lName, id, hours, mentor, isLoggedIn);
-        this.mainList.Add(id, _person);
+        mainList.Add(id, _person);
     }
 
     public void addPerson(Person _person){
-        if (this.mainList == null)
+        if (mainList == null)
         {
-            this.mainList = new Dictionary<int, Person>();
+            mainList = new Dictionary<int, Person>();
         }
-        //Person _person = new Person(fName, lName, id, hours, mentor, isLoggedIn);
-        this.mainList.Add(_person.id, _person);
+        
+        mainList.Add(_person.id, _person);
     }
 
     public void rmPerson(int id)
     {   
-        if (this.mainList != null)
+        if (mainList != null)
         {
-            this.mainList.Remove(id);
+            if(mainList.ContainsKey(id)) 
+            {
+                mainList.Remove(id);
+            }
+            else
+            {
+                throw new IndexOutOfRangeException();
+            }
+        }
+        else
+        {
+            throw new e.NullMainList("Cannot Remove User From Null Main List");
+        }
+    }
+
+    public Person getPerson(int id)
+    {
+        if (mainList == null)
+        {
+            throw new e.NullMainList("Main List Is Null");
+        }
+        return mainList[id];
+    }
+
+    public void loginPerson(int id){
+        if (mainList == null)
+        {
+            throw new e.NullMainList("Main List Is Null");
+        }
+        
+        if(mainList.ContainsKey(id)) 
+        {
+            mainList[id].lastLoginTime = DateTime.Now;
+            mainList[id].isLoggedIn = true;
         }
         else
         {
@@ -41,103 +77,78 @@ class userList
         }
     }
 
-    public Person getPerson(int id)
-    {
-        if (this.mainList == null)
-        {
-            throw new Exception("User List is Null");
-        }
-        return this.mainList[id];
-    }
-
-    public void loginPerson(int id){
-        if (this.mainList != null)
-        {
-            this.mainList[id].lastLoginTime = DateTime.Now;
-            this.mainList[id].isLoggedIn = true;
-        }
-        else
-        {
-            throw new Exception("User List is null");
-        }
-    }
-
     public void logoutPerson(int id)
     {
-        if (this.mainList != null)
+        if (mainList == null)
         {   
+            throw new e.NullMainList("Main List Is Null");
+        }
+
+        if (mainList.ContainsKey(id))
+        {
             if (mainList[id].isLoggedIn)
             {
-                DateTime startTime = this.mainList[id].lastLoginTime;
-                DateTime endTime = DateTime.Now;
-
-                TimeSpan elapsed = endTime.Subtract(startTime);
-
-                this.mainList[id].hours = elapsed.TotalHours;
-
-                this.mainList[id].isLoggedIn = false;
+                mainList[id].updateHours();
+                mainList[id].isLoggedIn = false;
             }
             else 
             {
-                Console.WriteLine("User Is not logged in.");
+                throw new e.InvalidLoginState("User Is Not Logged In");
             }
         }
         else
         {
-            throw new Exception("User List is null");
+            throw new IndexOutOfRangeException("Id Is Not In Main List");
         }
     }
 
     public void clearPersonHours(int id)
     {
-        if (this.mainList != null && this.mainList.ContainsKey(id))
+        if (mainList == null)
         {
-            this.mainList[id].hours = 0;
+            throw new e.NullMainList("Main List Is Null");
         }
-        else
-        {
-            throw new Exception("User List is null");
-        }
+
+        if (mainList.ContainsKey(id))
+                mainList[id].hours = 0;
+            else
+                throw new e.InvalidInput("ID Is Not In Main List");
     }
 
     public double getPersonHours(int id)
     {
-        if ( this.mainList != null && this.mainList.ContainsKey(id))
+        if ( mainList == null)
         {
-            return this.mainList[id].hours;
+            throw new e.NullMainList("Main List Is Null");
         }
+
+        if (mainList.ContainsKey(id))
+            return mainList[id].hours;
         else
-        {
-            throw new Exception("User List is null");
-        }
+            throw new IndexOutOfRangeException("ID Is Not In Main List");
         //return 0;
     }
 
     public void clearAllHours()
     {
-        if (this.mainList != null)
+        if (mainList == null)
         {
-            foreach (KeyValuePair<int, Person> p in this.mainList)
+            throw new e.NullMainList("Main List Is Null");
+        }
+        
+        foreach (KeyValuePair<int, Person> p in mainList)
             {
                 p.Value.hours = 0;
             }
-        }
-        else
-        {
-            throw new Exception("User List is null");
-        }
     }
 
     public Dictionary<int, Person> getMainList()
     {
-        if (this.mainList != null)
+        if (mainList == null)
         {
-            return this.mainList;
+            throw new e.NullMainList("Main List Is Null");
         }
-        else
-        {
-            throw new Exception("User List is null");
-        }  
+        return mainList;
     }
 }
 }

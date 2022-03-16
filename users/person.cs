@@ -39,5 +39,14 @@ class Person{
         Console.WriteLine("Mentor: {0}", mentor ? "Yes" : "No");
         Console.WriteLine(isLoggedIn ? "Logged In" : "Logged out");
     }
+
+    public void updateHours()
+    {
+        DateTime endTime = DateTime.Now;
+
+        TimeSpan elapsed = endTime.Subtract(lastLoginTime);
+
+        hours = elapsed.TotalHours;
+    }
 }
 }

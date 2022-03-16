@@ -258,15 +258,25 @@ class loop{
 
         if (ul != null)
         {   
+            
             if (int.TryParse(id_s, out id))
             {
-                Console.WriteLine("Name: {0}, {1}", ul.getPerson(id).firstName, ul.getPerson(id).lastName);
-                Console.WriteLine("Hours: {0}", ul.getPerson(id).hours);
-                updateState = true;
+                u.Person? _person;
+                _person = ul.getPerson(id);
+                if (_person != null)
+                {
+                    Console.WriteLine("Name: {0}, {1}", _person.firstName, _person.lastName);
+                    Console.WriteLine("Hours: {0}", _person.hours);
+                    updateState = true;
+                }
+                else
+                {
+                    
+                }
             }
             else
             {
-                Console.WriteLine("Please Enter a valid input");
+                throw new u.exceptions.InvalidInput("Invalid Input, input should be an integer.");
             }
         }
     }
