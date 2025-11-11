@@ -1,6 +1,7 @@
 # TimeKeeper
 A simple hour tracker eventually intended for use by the FRC robotics team I mentor.
 
+This has now been superseded by: https://github.com/tq320/DeburringHours
 
 ---
 
